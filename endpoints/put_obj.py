@@ -1,10 +1,9 @@
 import requests
-import jsonschema
 from endpoints.base_endpoint import Endpoint
 
 
-class CreateObj(Endpoint):
-    schema = {
+class UpdateObj(Endpoint):
+    schema ={
         "type": "object",
         "properties": {
             "id": {"type": "string"},
@@ -15,16 +14,20 @@ class CreateObj(Endpoint):
                     "year": {"type": "integer"},
                     "price": {"type": "number"},
                     "CPU model": {"type": "string"},
-                    "Hard disk size": {"type": "string"}
+                    "Hard disk size": {"type": "string"},
+                    "color": {"type":"string"}
                 },
-                "required": ["year", "price", "CPU model", "Hard disk size"]
+                "required": ["year", "price", "CPU model", "Hard disk size", "color"]
             }
+
         },
         "required": ["id", "name", "data"]
     }
-    # метод создания объекта (т.е. POST)
-    def new_obj(self, payload):
-        self.response = requests.post(f'{self.url}/objects',
-                                      json=payload)
+    # метод обновления объекта (т.е. PUT)
+    def put_obj(self, put_id, payload):
+        self.response = requests.put(f'{self.url}/objects/{put_id}', json=payload)
         self.response_json = self.response.json()
-        print("POST 'https://api.restful-api.dev' : ", self.response_json)
+        print("PUT 'https://api.restful-api.dev' : ", self.response_json)
+
+
+
